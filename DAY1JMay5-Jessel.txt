@@ -227,37 +227,37 @@ telephony-service
    no auto-reg-ephone
    max-ephones 5
    max-dn 20
-   ip source-address 10.__.100.8 port 2000
+   ip source-address 10.31.100.8 port 2000
    create cnf-files
 ephone-dn 1
-  number __11
+  number 3111
 ephone-dn 2
-  number __22
+  number 3122
 ephone-dn 3
-  number __33
+  number 3133
 ephone-dn 4
-  number __44
+  number 3144
 ephone-dn 5
-  number __55
+  number 3155
 ephone-dn 6
-  number __66
+  number 3166
 ephone-dn 7
-  number __77
+  number 3177
 ephone-dn 8
-  number __88
+  number 3188
  ephone-dn 9
-   number __99
+   number 3199
 ephone-dn 10
- number __98
+ number 3127
 Ephone 1
-  Mac-address ____.____.____
+  Mac-address 6cfa.8972.f0a9
   type 8945
-  button 1:8 2:7 3:6 4:5
+  button 1:1 2:2 3:3 4:10
   restart
 Ephone 2
-  Mac-address ____.____.____
+  Mac-address ccd8.c1fb.10dd
   type 8945
-  button 1:4 2:3 3:2 4:1
+  button 1:5 2:6 3:7 4:8
   restart  
 end
 
@@ -288,10 +288,10 @@ configure terminal
  destination-pattern 11..
  session target ipv4:10.11.100.8
  codec g711ULAW
- ! dial-peer voice 12 Voip
- ! destination-pattern 12..
- ! session target ipv4:10.12.100.8
- ! codec g711ULAW
+  dial-peer voice 12 Voip
+  destination-pattern 12..
+  session target ipv4:10.12.100.8
+  codec g711ULAW
 dial-peer voice 21 Voip
  destination-pattern 21..
  session target ipv4:10.21.100.8
@@ -300,10 +300,10 @@ dial-peer voice 22 Voip
  destination-pattern 22..
  session target ipv4:10.22.100.8
  codec g711ULAW
-dial-peer voice 31 Voip
- destination-pattern 31..
- session target ipv4:10.31.100.8
- codec g711ULAW
+! dial-peer voice 31 Voip
+! destination-pattern 31..
+! session target ipv4:10.31.100.8
+! codec g711ULAW
 dial-peer voice 32 Voip
  destination-pattern 32..
  session target ipv4:10.32.100.8
@@ -351,10 +351,10 @@ dial-peer voice 82 Voip
 
 TASK3***TASK3***TASK3***
 TASK3***TASK3***TASK3***
-PRIMARY EDGE ROUTER CONFIGURATION!
+PRIMARY EDGE ROUTER CONFIGURATION! owned by PLDT !!!
 !@@@EDGE ROUTE CONFIG
 config t
-   hostname EDGE-__
+   hostname EDGE-31
    enable secret pass
    service password-encryption
    no logging console
@@ -369,15 +369,15 @@ config t
       exec-timeout 0 0
    Int Gi 0/0/0
      description FIBEROPTIC-TO-SWITCH
-     ip add 10.__.__.1 255.255.255.0
+     ip add 10.31.31.1 255.255.255.0
 	 no shutdown
    Int Gi 0/0/1
      description PLDT-ME-WAN
-	 ip add 200.0.0.__ 255.255.255.0
+	 ip add 200.0.0.31 255.255.255.0
 	 no shutdown
    Int Loopback 0
      description VIRTUALIP-FOR-ROUTING
-	 ip add __.0.0.1 255.255.255.255
+	 ip add 31.0.0.1 255.255.255.255
  end
 
 OPEN SHORTEST PATH FIRST/OSPF CONFIG.
@@ -387,10 +387,10 @@ sirc: sh ip route connected
 @EDGE:
 config t
 router ospf 1
-router-id _.0.0.1
+router-id 31.0.0.1
 network 200.0.0.0  0.0.0.255 area 0
-network 10._._.0  0.0.0.255 area 0
-network _.0.0.1  0.0.0.0 area 0
+network 10.31.31.0  0.0.0.255 area 0
+network 31.0.0.1  0.0.0.0 area 0
 Interface gi 0/0/0
  ip ospf network point-to-point
 end
@@ -398,8 +398,8 @@ end
 @CoreBABA:
 config t
 router ospf 1
-router-id 10._._.4
-network 10._.0.0  0.0.255.255 area 0
+router-id 10.31.31.4
+network 10.31.0.0  0.0.255.255 area 0
 int gi 0/1
  ip ospf network point-to-point
 end
@@ -407,8 +407,8 @@ end
 @CUCM:
 config t
 router ospf 1
-router-id 10.__.100.8
-network 10._.100.0  0.0.0.255  area 0
+router-id 10.31.100.8
+network 10.31.100.0  0.0.0.255  area 0
 end
 
 
@@ -465,9 +465,9 @@ route  add  200.0.0.0   mask  255.255.255.0   10._.1.4
 config t
 dial-peer voice 69 voip
  service rivanaa out-bound
- destination-pattern _69
- session target ipv4:10._.100.8
- incoming called-number _69
+ destination-pattern 3169
+ session target ipv4:10.31.100.8
+ incoming called-number 3169
  dtmf-relay h245-alphanumeric
  codec g711ulaw
  no vad
@@ -490,13 +490,13 @@ application
   param max-time-vm-retry 2
   param voice-mail 1234
   param max-time-call-retry 700
-  param aa-pilot _69
+  param aa-pilot 3169
  service rivanqueue flash:app-b-acd-3.0.0.2.tcl
   param queue-len 15
-  param aa-hunt1 _00
-  param aa-hunt2 _77
-  param aa-hunt3 _01
-  param aa-hunt4 _33
+  param aa-hunt1 3100
+  param aa-hunt2 3177
+  param aa-hunt3 3101
+  param aa-hunt4 3133
   param queue-manager-debugs 1
   param number-of-hunt-grps 4
 ****************************************************************************
