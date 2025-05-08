@@ -1,0 +1,165 @@
+**** ROUTING ***
+
+Lunch RSTHayupv4
+
+incase no IP Address
+	>rm -rf
+
+
+
+@D1
+conf t
+ ip dhcp excluded-add 10.2.1.1 10.2.1.99
+ ip dhcp excluded-add 10.2.1.200 10.2.1.254
+ ip dhcp pool vlan10 ! //(vlan10 name nung mga dhcp )//
+	network 10.2.1.0 255.255.255.0
+	default-router 10.2.1.254
+end
+ 
+@A1
+conf t
+int e0/0
+ switchport mode access
+ switchport access vlan 10  !//(vlan 10 is command mismo)//
+end
+
+@P1
+conf t
+ int e0/0
+ ip add dhcp
+ no shut
+end
+
+
+
+@D2
+conf t
+ ip dhcp excluded-add 10.2.2.1 10.2.2.99
+ ip dhcp excluded-add 10.2.2.200 10.2.2.254
+ ip dhcp pool vlan20 ! //(vlan10 name nung mga dhcp )//
+	network 10.2.2.0 255.255.255.0
+	default-router 10.2.2.254
+end
+
+@A2
+conf t
+int e1/0
+ switchport mode access
+ switchport access vlan 20  !//(vlan 20 is command mismo)//
+end
+
+
+@P12
+conf t
+ int e1/0
+ ip add dhcp
+ no shut
+end
+
+
+*** CISCO ROUTING PROTOCOLS ***
+kapag naging master ka na sa routin, pakilala ka bilang IM.BODSS
+
+I- IS-IS(CCEI Level)
+M- MPLS (Multiprotocol Level Switching - CCNP Level)
+. --> Boundaries mo muna sa starter.
+B - BGP (Border gateway Protocol) CCNP Level ito pero
+					pina-hahagingan na sa job interview
+O - OSPF (Opent Shortest Path First)
+D - D'EIGRP (Enhanced Interior Gateway Routing Prototcol)
+S - Static
+S*- Default Static (a.k.a STUB Routing)
+
+
+** Rule of pingables **
+
+1. PING = DIKIT
+2. ROUTE = NOT DIKIT
+
+
+** STATIC ROUTING **
+recipe: ip route <not directly connected network IP>
+
+** CLEAR ALL THE STATIC ROUTES OF R1-R4
+
+@R1-R4
+conf t
+ no ip routing
+ ip routing
+end
+
+@R4 (Line 219 - 224)
+config t
+router eigrp 100
+ no auto-summary
+ network 10.1.4.8 0.0.0.3
+ network 10.1.4.4 0.0.0.3
+ end
+
+** EIGRP **
+- Administrative Distance is 90
+- CISCO Proprietary
+- The best dynamic routing protocol
+
+
+
+** OSPF **
+
+- Multi-Vendor Dynamic Routing Protocol
+- Link-State Advertisment
+- Administrative distance of 110
+- Advertise by AREA (Area 0 Backbone)
+ 
+conf t
+ ip route 0.0.0.0 0.0.0.0 10.2.1.1
+
+
+
+**** STUB ROUTING  *****
+
+S1 ===> S2
+
+D1
+conf t
+ int e1/0
+ switchport mode access
+ switchport access vlan 100
+ do ping 192.168.1.129
+
+@S1
+conf t
+ int e1/0
+ ip add 192.168.1.133 255.255.255.224
+ no shut
+ ip route 0.0.0.0 0.0.0.0 192.168.1.129 1
+ ip route 0.0.0.0 0.0.0.0 192.168.1.130 5
+end
+
+
+======S2/D2 ping 8.8.8.8
+@D2
+conf t
+ int e1/0
+ switchport mode access
+ switchport access vlan 100
+ do ping 192.168.1.130
+ ip dhcp excluded-add 192.168.1.129 192.168.1.133
+ ip dhcp pool vlan100
+ network 192.168.1.128 255.255.255.224
+ default-router 192.168.1.254
+
+@S2 
+conf t
+int e1/0
+ip add dhcp
+no shut
+do bp
+ip route 0.0.0.0 0.0.0.0 192.168.1.130 
+
+
+
+
+*** IPv6  ********
+
+
+
