@@ -610,7 +610,7 @@ IP ROUTE 0.0.0.0  0.0.0.0 208.8.8.2
 no logging console
 Int Gi 2
 no shut
-ip add 192.168.102.11 255.255.255.0
+ip add 192.168.102.11 255.255.255.0 
 ip name-server 8.8.8.8 1.1.1.1
 ip domain-lookup
 int gi 1
