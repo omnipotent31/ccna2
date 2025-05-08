@@ -154,7 +154,7 @@ ip route  192.168.1.129 255.255.255.255 10.2.1.1
 do sh ip route static
 Pano mag static Route sa PC:
 cmd
-route  add 10.m.0.0 mask 255.255.0.0 10.m.1.4 -p
+route  add 10.31.0.0 mask 255.255.0.0 10.31.1.4 -p
 
 How to Create Default Route Cisco/PC/EndDevices:
 p1:
@@ -321,7 +321,7 @@ end
 TASK9.3: BASIC eBGP FOR ISPS and R1.
 R1 BGP:
 config t
-router bgp 1
+router bgp 1   !ung "1 is AS number"
  bgp log-neighbor-changes
  neighbor 208.8.8.4 remote-as 45
  neighbor 207.7.7.2 remote-as 2
