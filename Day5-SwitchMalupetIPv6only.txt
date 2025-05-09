@@ -150,7 +150,7 @@ How to jailBreak forgotten Password:
 
 !@@@CORE SWITCH SA TAAS
 config t
-   hostname COREtaas_
+   hostname COREtaas31
    enable secret pass
    service password-encryption
    no logging console
@@ -165,19 +165,19 @@ config t
       exec-timeout 0 0
    Int Vlan 1
      no shutdown
-	 ip add 10._.1.2 255.255.255.0
+	 ip add 10.31.1.2 255.255.255.0
 	 description MGMTDATA
    Int Vlan 10
      no shutdown
-	 ip add 10._.10.2 255.255.255.0
+	 ip add 10.31.10.2 255.255.255.0
 	 description WIRELESS
    Int Vlan 50
      no shutdown
-	 ip add 10._.50.2 255.255.255.0
+	 ip add 10.31.50.2 255.255.255.0
 	 description IPCCTV
    Int Vlan 100
      no shutdown
-	 ip add 10._.100.2 255.255.255.0
+	 ip add 10.31.100.2 255.255.255.0
 	 description VOICEVLAN
 
 !@@@LeafSwitchONLY
@@ -269,7 +269,11 @@ config t
 NO spanning-tree vlan 1-999
 end
 AYUSIN ULET IS @taas: AT @baba
-9
+
+@taas at @baba:
+config t
+spanning-tree vlan 1-999
+end
 
 TASK7: HOW TO BECOME A WORLD-CLASS NETWORK ENGINEER
 SPECIALIZING IN SWITCH:
@@ -310,10 +314,7 @@ spanning-tree mode pvst
 spanning-tree vlan 1-100 root Primary
 do sh spanning-tree vlan 1
 BABA:/d2         32768->   28672
-Config t              
-spanning-tree mode pvst
-spanning-tree vlan 1-100 root Secondary
-do sh spanning-tree vlan 1
+c
 
 TASK9.1: STP port states. 802.1D states.
 iniwanngSyuta: lungkot,galit,lasing,moveOn.
@@ -488,7 +489,7 @@ config t
 hostname PLDT-ITO
 Track 1 Int gi 0/1 line-protocol
 Int vlan 1
-standby 1 ip 10.__.1.6
+standby 1 ip 10.31.1.6
 standby 1 preempt
 standby 1 Priority 150
 standby 1 Track 1 decrement 60
@@ -506,7 +507,7 @@ COREBABA/GLOBE:
 config t
 hostname GLOBE-ITO
 Int vlan 1
-standby 1 ip 10.__.1.6
+standby 1 ip 10.31.1.6
 standby 1 preempt
 standby 1 Priority 100
 end
